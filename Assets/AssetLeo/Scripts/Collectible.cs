@@ -15,10 +15,11 @@ public class Collectible : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        
         if (other.CompareTag("Player"))
         {
             OnCollected?.Invoke();
-            Destroy(gameObject);
+            Destroy(transform.root.gameObject);
             Debug.Log("Trigger touché par : " + other.name);
         }
     }
