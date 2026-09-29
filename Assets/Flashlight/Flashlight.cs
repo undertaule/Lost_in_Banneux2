@@ -11,32 +11,10 @@ public class Flashlight : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ON.SetActive(false);
-        OFF.SetActive(true);
-        IsOn = false;
+        ON.SetActive(true);
+       
+      
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            if (IsOn)
-            {
-                ON.SetActive(false);
-                OFF.SetActive(true);
-            }
-
-            if (!IsOn)
-            {
-                ON.SetActive(true);
-                OFF.SetActive(false);
-            }
-
-
-            IsOn = !IsOn;
-        }
-        
-    }
+   
 }
