@@ -3,7 +3,7 @@ using UnityEngine;
 public class CollectibleCount : MonoBehaviour
 {
     TMPro.TMP_Text text;
-    int count;
+    public int count;
     void Start() => UpdateCount();
     void Awake()
     {

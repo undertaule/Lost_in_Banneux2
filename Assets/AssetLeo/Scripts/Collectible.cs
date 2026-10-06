@@ -19,7 +19,7 @@ public class Collectible : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             OnCollected?.Invoke();
-            Destroy(transform.root.gameObject);
+            Destroy(gameObject);
             Debug.Log("Trigger touché par : " + other.name);
         }
     }
