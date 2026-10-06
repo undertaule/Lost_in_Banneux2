@@ -3,18 +3,32 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+public enum EnemyState
+{
+    Patrolling,
+    Following,
+}
 public class EnemiController : MonoBehaviour
 {
-    [Header("Reference")]
+    [Header("Reference")] 
+    [SerializeField] private Transform player;
     [SerializeField] private Transform[] patrolPoints;
     
     [Header("Settings")]
     [SerializeField] private float patrolWaitTime = 1f;
     [SerializeField] private float stopAtDistance = 0.5f;
+    [SerializeField] private float detectionRange = 5f;
+    [SerializeField] private float viewAngle = 90f;
+    [SerializeField] private float losePlayerTime = 3f;
+    
+    
 
     private NavMeshAgent _agent;
     private int _currentPatrolIndex;
     private bool _isWaiting;
+    private EnemyState _state = EnemyState.Patrolling;
+    private float _timeSinceLostplayer;
 
 
     private void Awake()
@@ -28,9 +42,43 @@ public class EnemiController : MonoBehaviour
 
     private void Update()
     {
-        Patrol();
+        var playerDistance = Vector3.Distance(player.position, transform.position);
+        switch (_state)
+        {
+            case EnemyState.Patrolling:
+                Patrol();
+                if (playerDistance <= detectionRange && CanSeePlayer())
+                {
+                    _state = EnemyState.Following;
+                }
+
+                break;
+            
+            case EnemyState.Following:
+                FollowPlayer();
+                if (!CanSeePlayer())
+                {
+                    _timeSinceLostplayer += Time.deltaTime;
+                    if (_timeSinceLostplayer >= patrolWaitTime)
+                    {
+                        _state = EnemyState.Patrolling;
+                        GoToClosestPatrolPoint();
+                    }
+                }
+                else
+                {
+                    _timeSinceLostplayer = 0f;
+                }
+
+                break;
+        }
+        
     }
 
+    private void FollowPlayer()
+    {
+        _agent.SetDestination(player.position);
+    }
     private void Patrol()
     {
         if (_isWaiting) return;
@@ -53,6 +101,21 @@ public class EnemiController : MonoBehaviour
         
     }
 
+    private void GoToClosestPatrolPoint()
+    {
+        if (patrolPoints.Length == 0) return;
+        var closestIndex = 0;
+        var closestDistance = float.MaxValue;
+
+        for (var i = 0; i < patrolPoints.Length; i++)
+        {
+            var distance = Vector3.Distance(player.position, patrolPoints[i].position);
+        }
+        _currentPatrolIndex = closestIndex;
+        _agent.SetDestination(patrolPoints[_currentPatrolIndex].position);
+        
+    }
+
     private void GoToNextPoint()
     {
         if (patrolPoints.Length == 0) return;
@@ -62,5 +125,26 @@ public class EnemiController : MonoBehaviour
         
     }
 
-   
+    private bool CanSeePlayer()
+    {
+        return IsFacingPlayer() && HasClearPathToPlayer();
+    }
+
+    private bool IsFacingPlayer()
+    {
+        var dirToPlayer = (player.position - transform.position).normalized;
+        var angle = Vector3.Angle(transform.forward, dirToPlayer);
+        return angle < viewAngle / 2f;
+    }
+
+    private bool HasClearPathToPlayer()
+    {
+        var dirToPlayer = player.position - transform.position;
+        if (Physics.Raycast(transform.position, dirToPlayer.normalized, out RaycastHit hit, dirToPlayer.magnitude))
+        {
+            return hit.transform == player;
+        }
+
+        return true;
+    }
 }

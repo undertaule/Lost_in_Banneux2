@@ -1,9 +1,10 @@
 using UnityEngine;
-
+using UnityEngine.UI;
 public class CollectibleCount : MonoBehaviour
 {
     TMPro.TMP_Text text;
     public int count;
+    public GameOverScreen gameOverScreen;
     void Start() => UpdateCount();
     void Awake()
     {
@@ -18,6 +19,7 @@ public class CollectibleCount : MonoBehaviour
     {
         count++;
         UpdateCount();
+        gameOverScreen.setup(count);
     }
     void UpdateCount()
     {
