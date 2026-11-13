@@ -18,10 +18,10 @@ public class Collectible : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Collectée : " + gameObject.name);
-
+            gameObject.SetActive(false);
             OnCollected?.Invoke();
 
-            gameObject.SetActive(false);
+            
         }
     }
 

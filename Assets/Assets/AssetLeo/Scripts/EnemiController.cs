@@ -17,7 +17,7 @@ public class EnemiController : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private float patrolWaitTime = 1f;
-    [SerializeField] private float stopAtDistance = 0.5f;
+    [SerializeField] private float stopAtDistance = 2.5f;
     [SerializeField] private float detectionRange = 50f;
     [SerializeField] private float viewAngle = 100f;
     [SerializeField] private float losePlayerTime = 10f;
