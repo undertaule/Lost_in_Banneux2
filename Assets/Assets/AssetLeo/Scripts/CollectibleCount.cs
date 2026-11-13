@@ -3,7 +3,7 @@ using UnityEngine.UI;
 public class CollectibleCount : MonoBehaviour
 {
     TMPro.TMP_Text text;
-    public int count;
+    private int count;
     public GameOverScreen gameOverScreen;
     void Start() => UpdateCount();
     void Awake()
