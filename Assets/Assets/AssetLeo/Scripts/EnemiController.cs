@@ -17,9 +17,9 @@ public class EnemiController : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private float patrolWaitTime = 1f;
-    [SerializeField] private float stopAtDistance = 2.5f;
+    [SerializeField] private float stopAtDistance = 10f;
     [SerializeField] private float detectionRange = 50f;
-    [SerializeField] private float viewAngle = 100f;
+    [SerializeField] private float viewAngle = 180f;
     [SerializeField] private float losePlayerTime = 10f;
     
     
@@ -61,7 +61,7 @@ public class EnemiController : MonoBehaviour
                 if (!CanSeePlayer())
                 {
                     _timeSinceLostplayer += Time.deltaTime;
-                    if (_timeSinceLostplayer >= patrolWaitTime)
+                    if (_timeSinceLostplayer >= losePlayerTime)
                     {
                         _state = EnemyState.Patrolling;
                         GoToClosestPatrolPoint();
