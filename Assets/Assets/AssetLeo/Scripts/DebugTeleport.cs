@@ -3,32 +3,37 @@ using UnityEngine.InputSystem;
 
 public class DebugTeleport : MonoBehaviour
 {
-    [SerializeField] private Transform point1;
-    [SerializeField] private Transform point2;
-    [SerializeField] private Transform point3;
+    [SerializeField] private Transform[] points;
+
+    private CharacterController cc;
+
+    private void Awake()
+    {
+        cc = GetComponent<CharacterController>();
+    }
 
     private void Update()
     {
-        if (Keyboard.current.numpad1Key.wasPressedThisFrame)
-            Teleport(point1);
+        for (int i = 0; i < points.Length && i < 9; i++)
+        {
+            Key key = Key.Numpad1 + i;
 
-        if (Keyboard.current.numpad2Key.wasPressedThisFrame)
-            Teleport(point2);
-
-        if (Keyboard.current.numpad3Key.wasPressedThisFrame)
-            Teleport(point3);
+            if (Keyboard.current[key].wasPressedThisFrame)
+            {
+                Teleport(i);
+            }
+        }
     }
 
-    private void Teleport(Transform destination)
+    private void Teleport(int index)
     {
-        if (destination == null) return;
-
-        CharacterController cc = GetComponent<CharacterController>();
+        if (points[index] == null)
+            return;
 
         if (cc != null)
             cc.enabled = false;
 
-        transform.position = destination.position;
+        transform.position = points[index].position;
 
         if (cc != null)
             cc.enabled = true;

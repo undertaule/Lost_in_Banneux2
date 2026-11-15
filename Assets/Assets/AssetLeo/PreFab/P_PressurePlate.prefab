@@ -157,4 +157,4 @@ MonoBehaviour:
   - {fileID: 0}
   stayActivated: 1
   activateMaterial: {fileID: 2100000, guid: cd8ba19fbaf89b74d8b9f55b092e7ccc, type: 2}
-  inactivateMaterial: {fileID: 2100000, guid: bfcedcfcdaf094c469eef486b9fb0c73, type: 2}
+  inactivateMaterial: {fileID: 2100000, guid: eb6d6a9f40ce1cc4796a05d8dfacf71c, type: 2}
